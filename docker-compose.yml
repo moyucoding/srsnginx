@@ -1,0 +1,33 @@
+version: '3'
+services:
+  srs:
+    image: registry.cn-hangzhou.aliyuncs.com/ossrs/srs:6
+    container_name: srs
+    ports:
+      - "1935:1935"
+      - "1985:1985"
+      - "1990:1990"
+      - "8000:8000/udp"
+      - "8080:8080"
+      - "8088:8088"
+    environment:
+      - CANDIDATE=127.0.0.1
+    volumes:
+      - ./conf/srs/srs.conf:/usr/local/srs/conf/https.docker.conf:ro
+    command: ./objs/srs -c conf/https.docker.conf
+    restart: always
+
+  nginx:
+    image: m.daocloud.io/docker.io/library/nginx
+    build: .
+    container_name: nginx-srs
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./conf/nginx/nginx.conf:/etc/nginx.conf:ro
+      - ./conf/certs/server.crt:/usr/local/srs/conf/server.crt:ro
+      - ./conf/certs/server.key:/usr/local/srs/conf/server.key:ro
+    depends_on:
+      - srs
+    restart: always
