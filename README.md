@@ -1,4 +1,4 @@
-# Python WebRTC Publisher
+# SRS Nginx Docker
 
 This project uses Docker to run [SRS](https://github.com/ossrs/srs) and [Nginx](https://github.com/nginx/nginx), enabling the HTTPS connection of SRS.
 
