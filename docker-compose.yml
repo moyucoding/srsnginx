@@ -14,7 +14,6 @@ services:
     volumes:
       - ./conf/srs/srs.conf:/usr/local/srs/conf/https.docker.conf:ro
     command: ./objs/srs -c conf/https.docker.conf
-    restart: always
 
   nginx:
     image: nginx:latest
@@ -29,4 +28,3 @@ services:
       - ./conf/certs/server.key:/usr/local/srs/conf/server.key:ro
     depends_on:
       - srs
-    restart: always
